@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Parstagram</string>
+    <!-- Strings related to login -->
+    <string name="prompt_username">Phone number, username or email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Log in</string>
+    <string name="description">Description of the post</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="submit">Submit</string>
+    <string name="forgot">Forgot password?</string>
+</resources>

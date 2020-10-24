@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:orientation="vertical"
+    tools:context=".views.LoginActivity">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="359dp"
+        android:layout_height="125dp"
+        android:layout_margin="10dp"
+        app:srcCompat="@drawable/instagram_logo" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_weight="1"
+        android:background="@drawable/et_style"
+        android:ems="10"
+        android:hint="@string/prompt_username" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="@string/prompt_password"
+        android:background="@drawable/et_style"
+        android:inputType="textPassword"/>
+
+    <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="right"
+        android:text="@string/forgot"
+        android:textColor="@color/teal_200"
+        android:textIsSelectable="true"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_weight="1"
+        android:background="@color/teal_200"
+        android:text="@string/action_sign_in"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+</LinearLayout>
