@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/instagram_home_outline_24"
+        android:title="@string/home"/>
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/instagram_search_outline_24"
+        android:title="@string/search"/>
+    <item
+        android:id="@+id/action_post"
+        android:icon="@drawable/instagram_new_post_outline_24"
+        android:title="@string/post"/>
+    <item
+        android:id="@+id/action_likes"
+        android:icon="@drawable/instagram_heart_outline_24"
+        android:title="@string/like"/>
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/instagram_user_outline_24"
+        android:title="@string/profile"/>
+</menu>

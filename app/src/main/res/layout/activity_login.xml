@@ -55,9 +55,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_weight="1"
-        android:background="@color/teal_200"
         android:text="@string/action_sign_in"
         android:textAllCaps="false"
+        android:background="@drawable/btn_style"
         android:textColor="@color/white" />
 
 </LinearLayout>

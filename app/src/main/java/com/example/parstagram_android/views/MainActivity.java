@@ -1,8 +1,11 @@
 package com.example.parstagram_android.views;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +24,12 @@ import android.widget.Toast;
 
 import com.example.parstagram_android.R;
 import com.example.parstagram_android.models.Post;
+import com.example.parstagram_android.views.fragments.HomeFragment;
+import com.example.parstagram_android.views.fragments.LikesFragment;
+import com.example.parstagram_android.views.fragments.PostFragment;
+import com.example.parstagram_android.views.fragments.ProfileFragment;
+import com.example.parstagram_android.views.fragments.SearchFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -32,138 +42,58 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    final FragmentManager fragmentManager = getSupportFragmentManager();
+
+    // define your fragments here
+    final Fragment homeFragment = new HomeFragment();
+    final Fragment searchFragment = new SearchFragment();
+    final Fragment postFragment = new PostFragment();
+    final Fragment likesFragment = new LikesFragment();
+    final Fragment profileFragment = new ProfileFragment();
+
     public static final String TAG = "MainActivity";
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 7;
-    private EditText etDescription;
-    private Button btnCaptureImage;
-    private ImageView ivPostImage;
-    private Button btnSubmit;
-    private Button btnLogout;
-    private File photoFile;
-    public String photoFileName = "photo.jpg";
+
+    private BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        etDescription = findViewById(R.id.etDescription);
-        btnCaptureImage = findViewById(R.id.btnCaptureImage);
-        ivPostImage = findViewById(R.id.ivPostImage);
-        btnSubmit = findViewById(R.id.btnSubmit);
-        btnLogout = findViewById(R.id.btnLogout);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        btnCaptureImage.setOnClickListener(new View.OnClickListener() {
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                launchCamera();
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment = null;
+                switch (menuItem.getItemId()) {
+                    case R.id.action_home:
+                        fragment = homeFragment;
+                        break;
+                    case R.id.action_search:
+                        Toast.makeText(MainActivity.this, "Search!", Toast.LENGTH_SHORT).show();
+                        fragment = searchFragment;
+                        break;
+                    case R.id.action_post:
+                        fragment = postFragment;
+                        break;
+                    case R.id.action_likes:
+                        fragment = likesFragment;
+                        break;
+                    case R.id.action_profile:
+                        fragment = profileFragment;
+                        break;
+                    default:
+                        Toast.makeText(MainActivity.this, "Default!", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                return true;
             }
         });
-
-        //queryPosts();
-        
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String description = etDescription.getText().toString();
-                if (description.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (photoFile == null || ivPostImage.getDrawable() == null) {
-                    Toast.makeText(MainActivity.this, "There is no photo", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(description, currentUser, photoFile);
-            }
-        });
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                goToLoginActivity();
-            }
-        });
-    }
-
-    private void launchCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoFile = getPhotoFileUri(photoFileName);
-        Uri fileProvider = FileProvider.getUriForFile(MainActivity.this, "com.codepath.fileprovider", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-        }
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                ivPostImage.setImageBitmap(takenImage);
-            } else { // Result was a failure
-                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private File getPhotoFileUri(String photoFileName) {
-        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-            Log.d(TAG, "Failed to create directory!");
-        }
-        return new File(mediaStorageDir.getPath() + File.separator + photoFileName);
-    }
-
-    private void savePost(String description, ParseUser currentUser, File photoFile) {
-        Post post = new Post();
-        post.setDescription(description);
-        post.setImage(new ParseFile(photoFile));
-        post.setUser(currentUser);
-        post.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while saving post");
-                    Toast.makeText(MainActivity.this, "Error while saving post", Toast.LENGTH_SHORT).show();
-                }
-                Log.i(TAG, "Post was saved successfully");
-                Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_SHORT).show();
-                etDescription.setText("");
-                ivPostImage.setImageResource(0);
-            }
-        });
-    }
-
-    private void queryPosts() {
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting posts");
-                    return;
-                }
-                for (Post post : posts) {
-                    Log.i(TAG, "post description: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                    Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void goToLoginActivity() {
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-        finish();
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
     }
 }
