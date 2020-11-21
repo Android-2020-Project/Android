@@ -60,4 +60,15 @@
         android:background="@drawable/btn_style"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_weight="1"
+        android:text="Create User"
+        android:textAllCaps="false"
+        android:background="@drawable/btn_style"
+        android:textColor="@color/white" />
+
 </LinearLayout>
