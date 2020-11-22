@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 Log.i(TAG,"Fetching new data!");
+                adapter.clear();
                 queryPosts();
                 swipeContainer.setRefreshing(false);
             }
