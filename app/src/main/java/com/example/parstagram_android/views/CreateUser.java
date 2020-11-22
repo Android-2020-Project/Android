@@ -50,4 +50,7 @@ public class CreateUser extends AppCompatActivity {
             }
         });
     }
+    public void goBack(View v){
+        finish();
+    }
 }

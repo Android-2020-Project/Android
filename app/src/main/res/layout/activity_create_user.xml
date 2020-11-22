@@ -85,4 +85,16 @@
         android:textAllCaps="false"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/btnGoBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_weight="1"
+        android:background="@drawable/btn_style"
+        android:onClick="goBack"
+        android:text="Back"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
 </LinearLayout>
