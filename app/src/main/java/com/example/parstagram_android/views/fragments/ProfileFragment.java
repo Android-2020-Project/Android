@@ -29,6 +29,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram_android.R;
 import com.example.parstagram_android.controllers.PostsAdapter;
 import com.example.parstagram_android.models.Post;
+import com.example.parstagram_android.views.MainActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -55,6 +56,7 @@ public class ProfileFragment extends Fragment {
     Button btnSubmit;
     TextView tvUsername;
     private File photoFile;
+    private TextView tvCaption;
 
 
     public ProfileFragment() {
@@ -73,22 +75,22 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ibProfilePic = view.findViewById(R.id.profile_image);
+        tvCaption = view.findViewById(R.id.tvProfileCaption);
         etCaption = view.findViewById(R.id.profile_image_caption);
         etPass = view.findViewById(R.id.etPass);
         etPhone = view.findViewById(R.id.etPhone);
         etEmail = view.findViewById(R.id.etEmail);
         btnSubmit = view.findViewById(R.id.profile_submit);
-        tvUsername = view.findViewById(R.id.tvUserName);
-//TODO: set tvUsername
-        String currentUser = ParseUser.getCurrentUser().getUsername();
-//        if(ParseUser.getCurrentUser().getUsername() != null) {
-//            tvUsername.setText(ParseUser.getCurrentUser().getUsername());
-//        }
+
+        tvUsername = view.findViewById(R.id.tvProfileUserName);
+
+        tvUsername.setText(ParseUser.getCurrentUser().getUsername());
+        tvCaption.setText(ParseUser.getCurrentUser().getString("caption"));
+        //tvCaption.setText("hello");
         int radius = 60;
         ParseFile pImage = ParseUser.getCurrentUser().getParseFile("image");
         if (pImage != null)
             Glide.with(this).load(pImage.getUrl()).transform(new RoundedCorners(radius)).into(ibProfilePic);
-        //tvUserName.setText(post.().getUsername());
 
         ibProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,17 +110,38 @@ public class ProfileFragment extends Fragment {
     protected void updateUser() {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            // Other attributes than "email" will remain unchanged!
-            currentUser.put("image", new ParseFile(photoFile));
+
+            if (photoFile != null)
+                currentUser.put("image", new ParseFile(photoFile));
+            if (!etCaption.getText().toString().equals(""))
+                currentUser.put("caption", etCaption.getText().toString());
+            if (!etEmail.getText().toString().equals(""))
+                currentUser.put("email", etEmail.getText().toString());
+            if (!etPass.getText().toString().equals(""))
+                currentUser.put("password", etPass.getText().toString());
+            if (!etPhone.getText().toString().equals(""))
+                currentUser.put("phone", Long.parseLong(etPhone.getText().toString()));
 
             // Saves the object.
             // Notice that the SaveCallback is totally optional!
             currentUser.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    // Here you can handle errors, if thrown. Otherwise, "e" should be null
+                    if (e != null) {
+                        Log.e(TAG, "Error while saving post");
+                        Toast.makeText(getContext(), "Error while saving post", Toast.LENGTH_SHORT).show();
+                    }
+                    Log.i(TAG, "Post was saved successfully");
+                    Toast.makeText(getView().getContext(), "Success!", Toast.LENGTH_SHORT).show();
+                    etEmail.setText("");
+                    etPass.setText("");
+                    etCaption.setText("");
+                    etPhone.setText("");
+                    ((MainActivity)getActivity()).doneEditing();
+
                 }
             });
+            Toast.makeText(getView().getContext(), etPass.getText().toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -173,43 +196,4 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    public void getCurrentUser() {
-        // After login, Parse will cache it on disk, so
-        // we don't need to login every time we open this
-        // application
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            tvUsername.setText(currentUser.getUsername());
-        } else {
-            // show the signup or login screen
-            Log.i(TAG, "Issues getting username");
-            return;
-        }
-    }
-
-
-
-//    @Override
-//    protected void queryPosts() {
-//        super.queryPosts();
-//        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-//        query.include(Post.KEY_USER);
-//        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
-//        query.addDescendingOrder(Post.KEY_CREATED_AT);
-//        query.findInBackground(new FindCallback<Post>() {
-//            @Override
-//            public void done(List<Post> posts, ParseException e) {
-//                if (e != null) {
-//                    Log.e(TAG, "Issue with getting posts");
-//                    return;
-//                }
-//                for (Post post : posts) {
-//                    Log.i(TAG, "post description: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-//                    //Toast.makeText(getContext(), "Success!", Toast.LENGTH_SHORT).show();
-//                }
-//                allPosts.addAll(posts);
-//                adapter.notifyDataSetChanged();
-//            }
-//        });
-   //}
 }

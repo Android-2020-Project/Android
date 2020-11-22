@@ -28,6 +28,7 @@ import com.example.parstagram_android.views.fragments.HomeFragment;
 import com.example.parstagram_android.views.fragments.LikesFragment;
 import com.example.parstagram_android.views.fragments.PostFragment;
 import com.example.parstagram_android.views.fragments.ProfileFragment;
+import com.example.parstagram_android.views.fragments.ViewProfileFragment;
 import com.example.parstagram_android.views.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
     final Fragment searchFragment = new SearchFragment();
     final Fragment postFragment = new PostFragment();
     final Fragment likesFragment = new LikesFragment();
-    final Fragment profileFragment = new ProfileFragment();
+    final Fragment editProfileFragment = new ProfileFragment();
+    final Fragment viewProfileFragment = new ViewProfileFragment();
 
     public static final String TAG = "MainActivity";
 
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = likesFragment;
                         break;
                     case R.id.action_profile:
-                        fragment = profileFragment;
+                        fragment = viewProfileFragment;
                         break;
                     default:
                         Toast.makeText(MainActivity.this, "Default!", Toast.LENGTH_SHORT).show();
@@ -95,5 +97,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.action_home);
+    }
+
+    public void editProfile() {
+        fragmentManager.beginTransaction().replace(R.id.flContainer, editProfileFragment).commit();
+    }
+
+
+    public void doneEditing() {
+        fragmentManager.beginTransaction().replace(R.id.flContainer, viewProfileFragment).commit();
     }
 }
