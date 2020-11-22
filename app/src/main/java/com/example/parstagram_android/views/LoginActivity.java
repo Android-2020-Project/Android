@@ -44,16 +44,6 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(username, password);
             }
         });
-
-        btnCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "onClick login button");
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                createUser(username, password);
-            }
-        });
     }
 
     private void loginUser(String username, String password) {
@@ -71,7 +61,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    public void CreateUserButton(View v){
+        Log.i(TAG, "onClick login button");
+        String username = etUsername.getText().toString();
+        String password = etPassword.getText().toString();
+        Intent intent = new Intent(this, CreateUser.class);
+        startActivity(intent);
+    }
 
+    //depreciated code due to new activity keeping for reference -Stone
     private void createUser(final String username, final String password) {
         Log.i(TAG, "Attempting to create new user " + username);
         // Create the ParseUser

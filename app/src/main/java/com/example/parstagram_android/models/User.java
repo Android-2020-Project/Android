@@ -10,6 +10,7 @@ public class User extends ParseObject {
 
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PWD = "password";
+    public static final String KEY_PHONE = "phone";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "username";
     public static final String KEY_POSTS = "numPosts";
@@ -25,6 +26,9 @@ public class User extends ParseObject {
         put(KEY_EMAIL, email);
     }
 
+    public void setPhone(String phone){
+        put(KEY_PHONE, phone);
+    }
     public ParseFile getImage() {
         return getParseFile(KEY_IMAGE);
     }
