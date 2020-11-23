@@ -7,76 +7,82 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.codepath.apps.restclienttemplate.controllers.EndlessRecyclerViewScrollListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram_android.R;
 import com.example.parstagram_android.controllers.PostsAdapter;
 import com.example.parstagram_android.models.Post;
+import com.example.parstagram_android.views.MainActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Headers;
 
+public class ViewProfileFragment extends Fragment {
 
-public class HomeFragment extends Fragment {
-
-    public static final String TAG = "HomeFragment";
-    private RecyclerView rvHome;
+    public static final String TAG = "ProfileViewFragment";
+    private RecyclerView rvProfile;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
-    SwipeRefreshLayout swipeContainer;
-    EndlessRecyclerViewScrollListener scrollListener;
+    protected ImageView profileImage;
+    protected TextView tvUsername;
+    protected TextView tvEmail;
+    protected TextView tvCaption;
+    protected Button btnEditProfile;
 
-    public HomeFragment() {
+    public ViewProfileFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_view_profile, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvHome = view.findViewById(R.id.rvHome);
+        rvProfile = view.findViewById(R.id.rvProfile);
 
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
-        rvHome.setAdapter(adapter);
-        rvHome.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvProfile.setAdapter(adapter);
+        rvProfile.setLayoutManager(new LinearLayoutManager(getContext()));
+        profileImage = view.findViewById(R.id.profileView_image);
+        tvUsername = view.findViewById(R.id.tvProfileViewUserName);
+        btnEditProfile = view.findViewById(R.id.editProfile);
+        tvEmail = view.findViewById(R.id.tvProfileViewEmail);
+        tvCaption = view.findViewById(R.id.tvProfileViewCaption);
+        tvUsername.setText(ParseUser.getCurrentUser().getUsername());
+        tvEmail.setText(ParseUser.getCurrentUser().getEmail());
+        tvCaption.setText(ParseUser.getCurrentUser().getString("caption"));
+        //tvCaption.setText("hello");
+        int radius = 60;
+        ParseFile pImage = ParseUser.getCurrentUser().getParseFile("image");
+        if (pImage != null)
+            Glide.with(this).load(pImage.getUrl()).transform(new RoundedCorners(radius)).into(profileImage);
         queryPosts();
 
-        swipeContainer = view.findViewById(R.id.swipeContainer);
-        swipeContainer.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh() {
-                Log.i(TAG,"Fetching new data!");
-                adapter.clear();
-                queryPosts();
-                swipeContainer.setRefreshing(false);
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).editProfile();
             }
         });
     }
@@ -84,7 +90,7 @@ public class HomeFragment extends Fragment {
     protected void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
-        query.setLimit(20);
+        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override

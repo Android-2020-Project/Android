@@ -1,8 +1,6 @@
-# Project 3 - Parstagram_Android
+# Project - Parstagram_Android
 
 Parstagram_Android is a photo sharing app similar to Instagram but using Parse as its backend.
-
-Time spent: 8 hours spent in total
 
 ## User Stories
 
@@ -42,10 +40,6 @@ Here's a walkthrough of implemented user stories:
 <img src='https://recordit.co/Bre48Dyybk.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [RecordIt](http://www.recordit.co/).
-
-## Notes
-
-I encountered zero challenges while building the app.
 
 ## Open-source libraries used
 

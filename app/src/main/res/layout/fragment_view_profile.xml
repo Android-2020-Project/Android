@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.fragments.ViewProfileFragment">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/profileView_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="8dp"
+        tools:srcCompat="@tools:sample/avatars"
+        android:tooltipText="TakePicture"/>
+
+    <TextView
+        android:id="@+id/tvProfileViewUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toRightOf="@id/profileView_image"
+        android:hint="username"
+        android:textColor="#090909"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/editProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:text="Edit Profile"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/profileView_image"
+        android:layout_below="@id/tvProfileViewUserName"
+        android:id="@+id/tvProfileViewEmail"
+        android:hint="testing@123.com"/>
+
+    <TextView
+        android:id="@+id/tvProfileViewCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toRightOf="@id/profileView_image"
+        android:layout_below="@id/tvProfileViewEmail"
+        android:hint="username" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/profileView_image"
+        android:padding="8dp" />
+</RelativeLayout>
+
+</FrameLayout>

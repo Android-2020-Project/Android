@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     android:orientation="vertical"
-    tools:context=".views.LoginActivity">
+    tools:context=".views.CreateUser">
 
     <ImageView
         android:id="@+id/ivLogo"
@@ -17,20 +17,44 @@
         app:srcCompat="@drawable/instagram_logo" />
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
         android:layout_weight="1"
         android:background="@drawable/et_style"
         android:ems="10"
-        android:hint="@string/prompt_username" />
+        android:hint="Email" />
+
+    <EditText
+        android:id="@+id/etPhoneNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/et_style"
+        android:ems="10"
+        android:hint="Phone"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/et_style"
+        android:ems="10"
+        android:hint="Username" />
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:ems="10"
         android:hint="@string/prompt_password"
@@ -50,25 +74,26 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnCreateUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_weight="1"
-        android:text="@string/action_sign_in"
-        android:textAllCaps="false"
         android:background="@drawable/btn_style"
+        android:onClick="CreateUserBtn"
+        android:text="Create User"
+        android:textAllCaps="false"
         android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/btnCreate"
+        android:id="@+id/btnGoBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_weight="1"
         android:background="@drawable/btn_style"
-        android:onClick="CreateUserButton"
-        android:text="Create User"
+        android:onClick="goBack"
+        android:text="Back"
         android:textAllCaps="false"
         android:textColor="@color/white" />
 
