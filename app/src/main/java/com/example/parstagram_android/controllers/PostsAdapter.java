@@ -75,10 +75,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         public void bind(Post post) {
 
-            int radius = 60;
             ParseFile pImage = post.getUser().getParseFile("image");
             if (pImage != null)
-                Glide.with(context).load(post.getUser().getParseFile("image").getUrl()).transform(new RoundedCorners(radius)).into(ivProfileImage);
+                Glide.with(context).load(post.getUser().getParseFile("image").getUrl()).circleCrop().into(ivProfileImage);
             tvUserName.setText(post.getUser().getUsername());
             ParseFile image = post.getImage();
             if (image != null)

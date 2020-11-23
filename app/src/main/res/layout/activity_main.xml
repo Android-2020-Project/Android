@@ -8,9 +8,16 @@
     tools:context=".views.MainActivity">
 
     <FrameLayout
-        android:id="@+id/flContainer"
+        android:id="@+id/Top_Container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
+
+    <FrameLayout
+        android:id="@+id/Bottom_Container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Top_Container"
         android:layout_above="@+id/bottomNavigationView"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -29,6 +29,7 @@ public class User extends ParseObject {
     public void setPhone(String phone){
         put(KEY_PHONE, phone);
     }
+
     public ParseFile getImage() {
         return getParseFile(KEY_IMAGE);
     }

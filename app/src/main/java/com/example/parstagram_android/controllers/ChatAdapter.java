@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.parstagram_android.R;
 import com.example.parstagram_android.models.Message;
-import com.parse.ParseFile;
+import com.example.parstagram_android.models.User;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -24,11 +24,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
     private static final int MESSAGE_INCOMING = 321;
     private List<Message> mMessages;
     private Context mContext;
-    private String mUserId;
+    private String userName;
 
-    public ChatAdapter(Context context, String userId, List<Message> messages) {
+    public ChatAdapter(Context context, String userName, List<Message> messages) {
         mMessages = messages;
-        this.mUserId = userId;
+        this.userName = userName;
         mContext = context;
     }
 
@@ -47,8 +47,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
     }
 
     private boolean isMe(int position) {
-        Message message = mMessages.get(position);
-        return message.getUserId() != null && message.getUserId().equals(mUserId);
+        if (userName == String.valueOf(ParseUser.getCurrentUser()))
+            return true;
+        else
+            return false;
     }
 
     @Override
@@ -57,11 +59,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
         LayoutInflater inflater = LayoutInflater.from(context);
 
         if (viewType == MESSAGE_INCOMING) {
-            View contactView = inflater.inflate(R.layout.fragment_messaging_incoming, parent, false);
+            View contactView = inflater.inflate(R.layout.item_message_incoming, parent, false);
             return new IncomingMessageViewHolder(contactView);
 
         } else if (viewType == MESSAGE_OUTGOING) {
-            View contactView = inflater.inflate(R.layout.fragment_messaging_outgoing, parent, false);
+            View contactView = inflater.inflate(R.layout.item_message_outgoing, parent, false);
             return new OutgoingMessageViewHolder(contactView);
 
         } else {
@@ -85,6 +87,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
     }
 
     public class IncomingMessageViewHolder extends MessageViewHolder {
+        User userIn = new User();
         ImageView imageOther;
         TextView body;
         TextView name;
@@ -99,7 +102,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
         @Override
         public void bindMessage(Message message) {
             Glide.with(mContext)
-                    .load(getProfileUrl(message.getUserId()))
+                    .load(userIn.getImage())
                     .circleCrop() // create an effect of a round profile picture
                     .into(imageOther);
             body.setText(message.getBody());
@@ -108,6 +111,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
     }
 
     public class OutgoingMessageViewHolder extends MessageViewHolder {
+        User userOut = new User();
         ImageView imageMe;
         TextView body;
 
@@ -120,14 +124,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHol
         @Override
         public void bindMessage(Message message) {
             Glide.with(mContext)
-                    .load(getProfileUrl(message.getUserId()))
+                    .load(userOut.getImage())
                     .circleCrop() // create an effect of a round profile picture
                     .into(imageMe);
             body.setText(message.getBody());
         }
-    }
-
-    private static String getProfileUrl(final String userId) {
-        return "";
     }
 }

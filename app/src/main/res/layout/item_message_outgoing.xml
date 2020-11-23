@@ -7,9 +7,6 @@
     android:paddingVertical="10dp"
     android:paddingLeft="60dp"
     android:paddingRight="15dp">
-    <!--
-    tools:context=".views.fragments.MessagingFragment"
-    -->
 
     <TextView
         android:id="@+id/tvBody"

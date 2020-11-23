@@ -1,62 +1,46 @@
 package com.example.parstagram_android.views;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.parstagram_android.R;
-import com.example.parstagram_android.models.Post;
+import com.example.parstagram_android.views.fragments.EditProfileFragment;
 import com.example.parstagram_android.views.fragments.HomeFragment;
 import com.example.parstagram_android.views.fragments.LikesFragment;
+import com.example.parstagram_android.views.fragments.MessagingFragment;
 import com.example.parstagram_android.views.fragments.PostFragment;
+import com.example.parstagram_android.views.fragments.ProfileFeedFragment;
 import com.example.parstagram_android.views.fragments.ProfileFragment;
-import com.example.parstagram_android.views.fragments.ViewProfileFragment;
 import com.example.parstagram_android.views.fragments.SearchFragment;
+import com.example.parstagram_android.views.fragments.StoriesFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import java.io.File;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
 
     // define your fragments here
+    final Fragment storiesFragment = new StoriesFragment();
     final Fragment homeFragment = new HomeFragment();
     final Fragment searchFragment = new SearchFragment();
+    // TODO Search Results Fragment
     final Fragment postFragment = new PostFragment();
     final Fragment likesFragment = new LikesFragment();
-    final Fragment editProfileFragment = new ProfileFragment();
-    final Fragment viewProfileFragment = new ViewProfileFragment();
+    // TODO Other User's Profile Fragment
+    final Fragment profileFragment = new ProfileFragment();
+    final Fragment editProfileFragment = new EditProfileFragment();
+    final Fragment profileFeedFragment = new ProfileFeedFragment();
+    final Fragment messagingFragment = new MessagingFragment();
 
     public static final String TAG = "MainActivity";
 
     private BottomNavigationView bottomNavigationView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,34 +49,38 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment fragment = null;
+                Fragment topFragment = null;
+                Fragment bottomFragment = null;
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
-                        fragment = homeFragment;
+                        topFragment = storiesFragment;
+                        bottomFragment = homeFragment;
                         break;
                     case R.id.action_search:
                         Toast.makeText(MainActivity.this, "Search!", Toast.LENGTH_SHORT).show();
-                        fragment = searchFragment;
+                        topFragment = searchFragment;
+                        bottomFragment = homeFragment;
                         break;
                     case R.id.action_post:
-                        fragment = postFragment;
+                        bottomFragment = postFragment;
                         break;
                     case R.id.action_likes:
-                        fragment = likesFragment;
+                        topFragment = storiesFragment;
+                        bottomFragment = likesFragment;
                         break;
                     case R.id.action_profile:
-                        fragment = viewProfileFragment;
+                        topFragment = profileFragment;
+                        bottomFragment = profileFeedFragment;
                         break;
                     default:
                         Toast.makeText(MainActivity.this, "Default!", Toast.LENGTH_SHORT).show();
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.Top_Container, topFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.Bottom_Container, bottomFragment).commit();
                 return true;
             }
         });
@@ -100,11 +88,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void editProfile() {
-        fragmentManager.beginTransaction().replace(R.id.flContainer, editProfileFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.Top_Container, editProfileFragment).commit();
     }
 
-
     public void doneEditing() {
-        fragmentManager.beginTransaction().replace(R.id.flContainer, viewProfileFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.Top_Container, profileFragment).commit();
+    }
+
+    public int likePost() {
+        // TODO code for liking posts
+        return 0;
+    }
+
+    public int unLikePost() {
+        // TODO code for unliking posts
+        return -1;
+    }
+
+    public int followUser() {
+        // TODO code for following users
+        return 0;
+    }
+
+    public int unFollowUser() {
+        // TODO code for unfollowing users
+        return -1;
+    }
+
+    public void messageUser() {
+        // TODO code for messaging users
+    }
+
+    public void viewUserProfile() {
+        // TODO code for viewing other user's profiles
+        // make profile images and names clickable?
     }
 }
