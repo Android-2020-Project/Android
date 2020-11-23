@@ -11,7 +11,7 @@ import com.parse.ParseUser;
 import java.util.List;
 
 
-public class ProfileFragment extends HomeFragment {
+public class ProfileFeedFragment extends HomeFragment {
 
     @Override
     protected void queryPosts() {

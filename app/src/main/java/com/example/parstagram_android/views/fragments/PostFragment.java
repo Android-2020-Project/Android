@@ -45,6 +45,7 @@ public class PostFragment extends Fragment {
     public static final String TAG = "PostFragment";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 7;
 
+
     private EditText etDescription;
     private Button btnCaptureImage;
     private ImageView ivPostImage;
@@ -158,6 +159,8 @@ public class PostFragment extends Fragment {
                 Toast.makeText(getContext(), "Success!", Toast.LENGTH_SHORT).show();
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);
+
+                // code here to add 1 to the currentUser's post total
             }
         });
     }
