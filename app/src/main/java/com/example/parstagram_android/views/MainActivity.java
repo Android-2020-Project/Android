@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.parstagram_android.R;
@@ -95,15 +96,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.Top_Container, profileFragment).commit();
     }
 
-    public int likePost() {
-        // TODO code for liking posts
-        return 0;
-    }
 
-    public int unLikePost() {
-        // TODO code for unliking posts
-        return -1;
-    }
 
     public int followUser() {
         // TODO code for following users

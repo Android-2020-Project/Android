@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.controllers.EndlessRecyclerViewScrollListener;
@@ -38,6 +39,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView rvHome;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
+    ImageButton btnLike;
+    ImageButton btnComment;
+    ImageButton btnShare;
+    ImageButton btnSave;
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
 
@@ -96,10 +101,32 @@ public class HomeFragment extends Fragment {
                 for (Post post : posts) {
                     Log.i(TAG, "post description: " + post.getDescription() + ", username: " + post.getUser().getUsername());
                     //Toast.makeText(getContext(), "Success!", Toast.LENGTH_SHORT).show();
+
+
                 }
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
             }
         });
     }
+
+    public void likeButton(Post post) {
+        btnLike = getView().findViewById(R.id.btnLike);
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (btnLike.isSelected() == false) {
+                    btnLike.setSelected(false);
+                    btnLike.setSelected(true);
+                    post.incrementLikes();
+                } else {
+                    btnLike.setSelected(true);
+                    btnLike.setSelected(false);
+                    post.decrementLikes();
+                }
+            }
+        });
+    }
+
 }
+
