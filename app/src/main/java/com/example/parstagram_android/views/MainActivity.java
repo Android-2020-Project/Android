@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                         bottomFragment = homeFragment;
                         break;
                     case R.id.action_post:
+                        topFragment = storiesFragment;
                         bottomFragment = postFragment;
                         break;
                     case R.id.action_likes:
