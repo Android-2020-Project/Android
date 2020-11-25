@@ -5,6 +5,8 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 @ParseClassName("User")
 public class User extends ParseObject {
 
@@ -45,4 +47,10 @@ public class User extends ParseObject {
     public void setUser(ParseUser parseUser) {
         put(KEY_USER, parseUser);
     }
+
+    public int getPosts() { return getInt(KEY_POSTS); }
+
+    public int getFollowing() { return getInt(KEY_FOLLOWING); }
+
+    public int getFollowers() { return getInt(KEY_FOLLOWERS); }
 }
