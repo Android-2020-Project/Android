@@ -46,35 +46,19 @@ public class Post extends ParseObject {
         put(KEY_USER, parseUser);
     }
 
-    public void setLikes() {
-        // TODO will likely need to be exported from Like model
-    }
-
-    public int getLikes() {
+    public int getNumLikes() {
         return getInt(KEY_LIKES);
     }
 
-    public void setComments() {
-        // TODO  will likely need to be exported from Comment model
-    }
-
-    public int getComments() {
+    public int getNumComments() {
         return getInt(KEY_COMMENTS);
     }
 
-    public void setShares() {
-        // TODO
-    }
-
-    public int getShares() {
+    public int getNumShares() {
         return getInt(KEY_SHARES);
     }
 
-    public void setSaves() {
-        // TODO
-    }
-
-    public int getSaves() {
+    public int getNumSaves() {
         return getInt(KEY_SAVES);
     }
 }

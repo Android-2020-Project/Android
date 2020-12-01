@@ -1,7 +1,10 @@
 package com.example.parstagram_android.models;
 
-public class Comment {
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
 
-    public Comment() {
-    }
+@ParseClassName("Comment")
+public class Comment extends ParseObject {
+
+
 }
