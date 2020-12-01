@@ -10,16 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parstagram_android.R;
 import com.example.parstagram_android.models.User;
+import com.parse.Parse;
+import com.parse.ParseUser;
 
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
-    private List<User> mData;
+    private List<ParseUser> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    public SearchAdapter(Context context, List<User> data) {
+    public SearchAdapter(Context context, List<ParseUser> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -34,8 +36,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        User user = mData.get(position);
-        holder.myTextView.setText(user.getUser().getUsername());
+        ParseUser user = mData.get(position);
+        holder.myTextView.setText(user.getUsername());
     }
 
     // total number of rows
@@ -62,7 +64,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     // convenience method for getting data at click position
-    User getItem(int id) {
+    ParseUser getItem(int id) {
         return mData.get(id);
     }
 
