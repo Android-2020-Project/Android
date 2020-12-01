@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_search:
                         Toast.makeText(MainActivity.this, "Search!", Toast.LENGTH_SHORT).show();
-                        topFragment = searchFragment;
-                        bottomFragment = homeFragment;
+                        topFragment = storiesFragment;
+                        bottomFragment = searchFragment;
                         break;
                     case R.id.action_post:
                         topFragment = storiesFragment;
